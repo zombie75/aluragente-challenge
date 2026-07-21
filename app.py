@@ -1,7 +1,7 @@
 from utils.lector_pdf import leer_pdf
 
 
-ruta = "documentos/Manual Interno de Empresa.pdf"
+ruta = "documentos/manual_empresa.pdf"
 
 contenido = leer_pdf(ruta)
 
