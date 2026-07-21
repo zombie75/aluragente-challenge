@@ -290,3 +290,14 @@ Proyecto desarrollado como parte del programa:
 
 Challenge:
 **Alura Agente - Construcción de un Agente de IA**
+
+---
+
+# 📸 Demostración del Agente funcionando
+
+La aplicación permite realizar preguntas sobre documentos empresariales
+y obtener respuestas mediante Inteligencia Artificial.
+
+![AluraAgente funcionando](imagenes/captura_agente.png)
+
+---
