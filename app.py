@@ -26,6 +26,10 @@ contexto = "\n".join(
     [documento.page_content for documento in resultados]
 )
 
+print("\n===== CONTEXTO ENVIADO A GEMMA =====\n")
+print(contexto)
+print("\n===================================\n")
+
 
 respuesta = generar_respuesta(
     pregunta,
