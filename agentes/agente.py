@@ -25,5 +25,5 @@ def crear_memoria(partes):
         partes,
         embeddings
     )
-
     return memoria
+

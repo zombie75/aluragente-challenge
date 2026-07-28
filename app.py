@@ -3,7 +3,7 @@ from agentes.agente import dividir_texto, crear_memoria
 from agentes.respuesta_ia import generar_respuesta
 
 
-ruta = "documentos/manual_empresa.pdf"
+ruta = "documentos/manual_gazzapo_challenge.pdf"
 
 
 texto = leer_pdf(ruta)

@@ -1,26 +1,32 @@
 from langchain_ollama import ChatOllama
 
 modelo = ChatOllama(
-    model="gemma3:1b",
+    model="gemma3:270m",
     temperature=0
 )
+
 
 def generar_respuesta(pregunta, contexto):
 
     prompt = f"""
-Eres un asistente que responde preguntas sobre un documento interno de una empresa.
+Responde la pregunta usando exclusivamente el CONTEXTO.
 
-Este es el contenido del documento:
-
+CONTEXTO:
 {contexto}
 
-Pregunta del usuario:
+PREGUNTA:
 {pregunta}
 
-Responde únicamente utilizando la información del documento.
-Si encuentras la respuesta, respóndela de forma clara.
-Si realmente no aparece, responde:
-"No encontré esa información en el documento."
+INSTRUCCIONES:
+- Busca primero la información en el contexto.
+- Si el contexto contiene información relacionada, responde directamente.
+- No inventes información.
+- Responde en español.
+- Sé breve y claro.
+- Solo responde "No encontré esa información en el documento."
+  cuando el contexto realmente no contenga ninguna información relacionada.
+
+RESPUESTA:
 """
 
     respuesta = modelo.invoke(prompt)

@@ -1,303 +1,317 @@
-# 🤖 AluraAgente Challenge
+# 🤖 Gazzapo Assistant — AluraAgente Challenge
 
-## Agente de Inteligencia Artificial para consulta de documentos empresariales
+## Asistente inteligente con RAG para atención al cliente
 
-Proyecto desarrollado para el Challenge **Alura Agente - Oracle Next Education**, cuyo objetivo es construir un agente de Inteligencia Artificial capaz de responder preguntas sobre documentos internos de una empresa utilizando técnicas de **RAG (Retrieval-Augmented Generation)**.
+Proyecto desarrollado para el Challenge **Alura Agente - Oracle Next Education (ONE)**.
 
-La aplicación permite cargar un documento PDF empresarial, procesar su contenido, crear una memoria vectorial y responder consultas en lenguaje natural utilizando un modelo de lenguaje local.
+Gazzapo Assistant es un agente de Inteligencia Artificial capaz de responder preguntas sobre productos personalizados, pedidos, envíos, cambios, devoluciones y políticas de atención utilizando información contenida en un documento PDF.
 
----
-
-# 📌 Descripción del Proyecto
-
-Muchas empresas almacenan grandes cantidades de información en documentos internos como:
-
-- Manuales corporativos.
-- Políticas internas.
-- Procedimientos.
-- Documentación técnica.
-- Informes.
-
-Buscar información manualmente consume tiempo.
-
-Este proyecto implementa un asistente inteligente capaz de:
-
-✅ Leer documentos PDF.  
-✅ Procesar información relevante.  
-✅ Crear embeddings del contenido.  
-✅ Buscar información mediante similitud semántica.  
-✅ Generar respuestas utilizando Inteligencia Artificial.
+El proyecto utiliza una arquitectura **RAG (Retrieval-Augmented Generation)** para recuperar información relevante del documento antes de generar una respuesta.
 
 ---
 
-# 🏗 Arquitectura del Proyecto
+## 🎯 Problema que resuelve
 
-La arquitectura utilizada corresponde a un sistema **RAG (Retrieval-Augmented Generation)**.
+Los clientes de una tienda de productos personalizados pueden tener preguntas frecuentes como:
 
-```
+- ¿Puedo enviar mi propia fotografía?
+- ¿Cuánto demora un pedido?
+- ¿Qué pasa si mi producto llega dañado?
+- ¿Puedo cambiar un producto personalizado?
+- ¿Cómo se realizan los despachos?
+- ¿Qué ocurre si envié información incorrecta?
+
+Buscar manualmente cada respuesta consume tiempo.
+
+**Gazzapo Assistant** automatiza este proceso utilizando Inteligencia Artificial y una base de conocimiento documental.
+
+---
+
+## 🧠 ¿Cómo funciona?
+
+El sistema utiliza una arquitectura RAG:
+
+```text
 Usuario
    |
-   ↓
+   v
 Interfaz Streamlit
    |
-   ↓
-Pregunta del usuario
+   v
+Pregunta
    |
-   ↓
-Búsqueda semántica FAISS
+   v
+Embeddings
+sentence-transformers/all-MiniLM-L6-v2
    |
-   ↓
-Embeddings Hugging Face
+   v
+Búsqueda semántica con FAISS
    |
-   ↓
-Fragmentos relevantes del documento
+   v
+Fragmentos relevantes del PDF
    |
-   ↓
-Modelo Gemma 3 (Ollama)
+   v
+Gemma 3 mediante Ollama
    |
-   ↓
-Respuesta generada por IA
+   v
+Respuesta basada en el documento
 ```
+
+El modelo recibe únicamente los fragmentos relevantes recuperados desde la base vectorial, reduciendo respuestas que no estén respaldadas por el documento.
 
 ---
 
-# 🛠 Tecnologías Utilizadas
+## 📄 Base de conocimiento
 
-## Lenguaje
+El agente utiliza:
 
-- Python 3
+```text
+documentos/manual_gazzapo_challenge.pdf
+```
 
-## Inteligencia Artificial
+El documento contiene información sobre:
 
-- Ollama
-- Gemma 3
-- LangChain
-- Hugging Face Embeddings
+- Preguntas frecuentes.
+- Productos personalizados.
+- Pedidos y aprobación de diseños.
+- Envíos y entregas.
+- Cambios y devoluciones.
+- Privacidad.
+- Términos básicos del servicio.
 
-## Procesamiento de documentos
+---
 
-- PyPDF
+## 🛠 Tecnologías utilizadas
 
-## Base vectorial
-
-- FAISS
-
-## Interfaz
-
+- Python
 - Streamlit
-
-## Control de versiones
-
+- LangChain
+- Ollama
+- Gemma 3 270M
+- Hugging Face Embeddings
+- sentence-transformers/all-MiniLM-L6-v2
+- FAISS
+- PyPDF
 - Git
 - GitHub
+- Oracle Cloud Infrastructure
 
 ---
 
-# 📂 Estructura del Proyecto
+## 📂 Estructura del proyecto
 
-```
+```text
 aluragente-challenge/
-
 │
 ├── agentes/
 │   ├── agente.py
 │   └── respuesta_ia.py
 │
 ├── documentos/
-│   └── manual_empresa.pdf
+│   └── manual_gazzapo_challenge.pdf
 │
 ├── utils/
 │   └── lector_pdf.py
 │
 ├── app.py
-│
 ├── streamlit_app.py
-│
 ├── requirements.txt
-│
 ├── README.md
-│
 └── .gitignore
 ```
 
 ---
 
-# ⚙️ Instalación
+## 🔎 Procesamiento del documento
 
-## 1. Clonar repositorio
+El PDF es leído mediante PyPDF.
 
-```bash
-git clone https://github.com/zombie75/aluragente-challenge.git
+Posteriormente, el contenido se divide en fragmentos utilizando:
+
+```text
+RecursiveCharacterTextSplitter
 ```
 
-Entrar al proyecto:
+Configuración:
 
-```bash
-cd aluragente-challenge
+```text
+chunk_size = 500
+chunk_overlap = 50
 ```
+
+Los embeddings se generan utilizando:
+
+```text
+sentence-transformers/all-MiniLM-L6-v2
+```
+
+Los vectores se almacenan y consultan mediante **FAISS**.
 
 ---
 
-## 2. Crear entorno virtual
+## 🤖 Modelo de Inteligencia Artificial
 
-Windows:
+El proyecto utiliza **Gemma 3 mediante Ollama**.
+
+Modelo configurado:
+
+```text
+gemma3:270m
+```
+
+Se eligió una versión ligera para permitir la ejecución del agente en una instancia de recursos limitados en Oracle Cloud.
+
+---
+
+## ⚙️ Instalación
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/zombie75/aluragente-challenge.git
+cd aluragente-challenge
+```
+
+### 2. Crear entorno virtual
 
 ```bash
 python -m venv venv
 ```
 
-Activar:
+Linux/macOS:
+
+```bash
+source venv/bin/activate
+```
+
+Windows:
 
 ```bash
 venv\Scripts\activate
 ```
 
----
-
-## 3. Instalar dependencias
+### 3. Instalar dependencias
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
+### 4. Instalar Ollama
 
-# 🤖 Configuración del Modelo IA
+Descargar e instalar Ollama desde su sitio oficial.
 
-Este proyecto utiliza Ollama para ejecutar Gemma localmente.
-
-Instalar Ollama:
-
-https://ollama.com/
-
-Descargar modelo:
+Después descargar el modelo:
 
 ```bash
-ollama pull gemma3:1b
-```
-
-Ejecutar modelo:
-
-```bash
-ollama run gemma3:1b
+ollama pull gemma3:270m
 ```
 
 ---
 
-# ▶️ Ejecutar Aplicación
-
-Ejecutar:
+## ▶️ Ejecutar la aplicación
 
 ```bash
 streamlit run streamlit_app.py
 ```
 
-La aplicación estará disponible en:
+Por defecto estará disponible en:
 
-```
+```text
 http://localhost:8501
 ```
 
----
+Para permitir conexiones externas:
 
-# 💬 Ejemplos de Preguntas
-
-## Pregunta
-
-```
-¿Qué tecnologías utiliza la empresa?
-```
-
-Respuesta:
-
-```
-La empresa utiliza Python, JavaScript,
-PostgreSQL, Docker, Servicios Cloud
-e Inteligencia Artificial.
+```bash
+streamlit run streamlit_app.py --server.address 0.0.0.0 --server.port 8501
 ```
 
 ---
 
-## Pregunta
+## 💬 Ejemplos de preguntas
 
-```
-¿Cuál es el horario laboral?
+### ¿Puedo enviar mi propia foto para personalizar un tazón?
+
+El agente recupera la información relacionada desde el PDF y explica que el cliente puede enviar fotografías o diseños y que se revisará la calidad del archivo antes de la producción.
+
+### ¿Qué pasa si mi pedido llega con un nombre equivocado?
+
+El agente consulta las políticas de productos personalizados y determina la respuesta utilizando la información recuperada del documento.
+
+### ¿Cuánto demora un pedido?
+
+El agente consulta las políticas de producción y entrega incluidas en la base de conocimiento.
+
+---
+
+## ☁️ Despliegue en Oracle Cloud
+
+La aplicación fue desplegada en una instancia Ubuntu de **Oracle Cloud Infrastructure (OCI)**.
+
+En el servidor se ejecutan:
+
+```text
+Streamlit
+   +
+FAISS
+   +
+Hugging Face Embeddings
+   +
+Ollama
+   +
+Gemma 3
 ```
 
-Respuesta:
+Streamlit está configurado como un servicio de `systemd`, permitiendo que la aplicación continúe ejecutándose aunque se cierre la sesión SSH.
 
+Ollama también funciona como servicio del sistema.
+
+---
+
+## ⚡ Optimización
+
+Para reducir la carga del servidor, la memoria vectorial se mantiene en caché mediante:
+
+```python
+@st.cache_resource
 ```
-Lunes a viernes de 09:00 a 18:00 horas.
+
+Esto evita reconstruir los embeddings y el índice FAISS en cada interacción del usuario.
+
+---
+
+## 🔐 Principio de respuesta
+
+El agente recibe instrucciones para responder utilizando exclusivamente la información recuperada desde el documento.
+
+Cuando el contexto no contiene información relacionada, debe indicar:
+
+```text
+No encontré esa información en el documento.
 ```
 
 ---
 
-## Pregunta
+## 🚀 Resultado
 
-```
-¿Qué hace el área de tecnología?
-```
+El proyecto demuestra la construcción de un agente inteligente capaz de:
 
-Respuesta:
-
-```
-Desarrolla aplicaciones web, APIs y soluciones
-basadas en inteligencia artificial.
-```
-
----
-
-# 🧠 Conceptos Aplicados
-
-Este proyecto implementa:
-
-- Procesamiento de lenguaje natural.
-- Embeddings.
-- Bases de datos vectoriales.
-- Búsqueda semántica.
-- Modelos de lenguaje.
-- Arquitectura RAG.
+- Leer documentos PDF.
+- Dividir y procesar texto.
+- Crear embeddings.
+- Construir una memoria vectorial.
+- Realizar búsquedas semánticas.
+- Implementar RAG.
+- Consultar un LLM local.
+- Generar respuestas basadas en contexto.
+- Proporcionar una interfaz web.
+- Desplegar una aplicación de IA en la nube.
 
 ---
 
-# 🚀 Próximas Mejoras
+## 👨‍💻 Autor
 
-- Implementación en Oracle Cloud Infrastructure (OCI).
-- Soporte para múltiples documentos.
-- Autenticación de usuarios.
-- Historial de conversaciones.
-- Panel administrativo.
+Carlos Martínez
 
----
-
-# 👨‍💻 Autor
-
-**Carlos Martínez**
-
-Analista Programador  
-
-GitHub:
-
-https://github.com/zombie75
-
----
-
-# 📄 Challenge
-
-Proyecto desarrollado como parte del programa:
-
-**Oracle Next Education - Alura Latam**
-
-Challenge:
-**Alura Agente - Construcción de un Agente de IA**
-
----
-
-# 📸 Demostración del Agente funcionando
-
-La aplicación permite realizar preguntas sobre documentos empresariales
-y obtener respuestas mediante Inteligencia Artificial.
-
-![AluraAgente funcionando](imagenes/captura_agente.png)
-
----
+Challenge Alura Agente  
+Oracle Next Education — ONE
