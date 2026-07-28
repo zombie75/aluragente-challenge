@@ -306,6 +306,30 @@ El proyecto demuestra la construcción de un agente inteligente capaz de:
 - Generar respuestas basadas en contexto.
 - Proporcionar una interfaz web.
 - Desplegar una aplicación de IA en la nube.
+## ☁️ Evidencia del Deploy en Oracle Cloud
+
+Gazzapo Assistant fue desplegado y se encuentra funcionando en una instancia Ubuntu de Oracle Cloud Infrastructure (OCI).
+
+**Aplicación desplegada:**
+
+http://159.112.142.216:8501
+
+### Aplicación funcionando en OCI
+
+![Gazzapo Assistant funcionando en Oracle Cloud](imagenes/gazzapo-assistant-oci.png)
+
+### Ejemplo real
+
+**Pregunta:**
+
+¿Puedo enviar mi propia foto para personalizar un tazón?
+
+**Respuesta generada:**
+
+Sí, el cliente puede enviar fotografías o diseños y Gazzapo revisará si la calidad del archivo es adecuada para producción.
+
+La respuesta se obtiene utilizando información recuperada desde el documento `manual_gazzapo_challenge.pdf` mediante la arquitectura RAG.
+
 
 ---
 
